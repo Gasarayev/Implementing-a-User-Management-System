@@ -91,7 +91,8 @@ function displayTable() {
       user.phone_number,
       user.birthdate,
       user.job,
-      user.company
+      user.company,
+      // user.calculateAge()
     ];
 
     values.forEach((bodyCont) => {
@@ -102,7 +103,9 @@ function displayTable() {
 
     tbody.appendChild(trBody);
   });
-}
+};
+
+// pagination 
 
 function setupPag() {
   pagList.innerHTML = "";
@@ -123,7 +126,7 @@ function setupPag() {
     });
     li.appendChild(a);
     pagList.appendChild(li);
-  }
+  };
 };
 
 
@@ -149,18 +152,13 @@ class Person {
     this.job = job;
     this.company = company;
     this.birthdate = birthdate;
-  }
+
+  };
 
   calculateAge() {
     const birthday = new Date(this.birthdate);
     const now = new Date();
     let age = now.getFullYear() - birthday.getFullYear();
-    const monthDifference = now.getMonth() - birthday.getMonth();
-
-    if (monthDifference < 0 || (monthDifference === 0 && now.getDate() < birthday.getDate())) {
-      age--;
-    }
-
     return age;
   }
 }
@@ -168,18 +166,18 @@ class Person {
 class User extends Person {
   constructor(name, address, email, phone_number, job, company, birthdate) {
     super(name, address, email, phone_number, job, company, birthdate);
-  }
+  };
 
   retiredAge() {
     const retiredAge = 65;
     return this.calculateAge() > retiredAge;
-  }
+  };
 
   usersInfo() {
     if (this.retiredAge()) {
       return `Name: ${this.name}, Job: ${this.job}, Company: ${this.company} , Retired`;
     } else {
       return `Name: ${this.name}, Job: ${this.job}, Company: ${this.company} , Not Retired`;
-    }
-  }
-}
+    };
+  };
+};
