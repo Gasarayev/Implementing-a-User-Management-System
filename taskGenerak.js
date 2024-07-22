@@ -37,18 +37,6 @@ table.appendChild(thead);
 table.appendChild(tbody);
 root.appendChild(table);
 
-// Pagination
-
-const pagination = document.createElement("nav");
-const pagList = document.createElement("ul");
-pagList.classList.add("pagination");
-pagination.appendChild(pagList);
-root.appendChild(pagination);
-
-let currPage = 1;
-const recordsPerPage = 10;
-let userdata = [];
-let filterData=[];
 
 fetch("https://api.npoint.io/9cda598e0693b49ef1eb")
   .then((response) => response.json())
@@ -73,13 +61,30 @@ fetch("https://api.npoint.io/9cda598e0693b49ef1eb")
     console.error("Error :", error);
   });
 
+
+  // Pagination
+
+const pagination = document.createElement("nav");
+const pagList = document.createElement("ul");
+pagList.classList.add("pagination");
+pagination.appendChild(pagList);
+root.appendChild(pagination);
+
+let currPage = 1;
+const recordsPerPage = 10;
+let userdata = [];
+let filterData=[];
+
 function displayTable() {
   tbody.innerHTML = "";
 
   // 10 data her sehifede
-  const start = (currPage - 1) * recordsPerPage;
+  const start = (currPage-1) * recordsPerPage;
+  // console.log(start)
   const end = start + recordsPerPage;
   const paginatedUser = filterData.slice(start, end); 
+
+  // console.log(paginatedUser)
 
   paginatedUser.forEach((user) => {
     const trBody = document.createElement("tr");
@@ -105,11 +110,11 @@ function displayTable() {
   });
 };
 
-// pagination 
-
 function setupPag() {
   pagList.innerHTML = "";
   const pageCount = Math.ceil(filterData.length / recordsPerPage);
+
+  // console.log(pageCount)
 
   for (let i = 1; i <= pageCount; i++) {
     const li = document.createElement("li");
@@ -120,7 +125,7 @@ function setupPag() {
     a.textContent = i;
     a.href = "#";
     a.addEventListener("click", (event) => {
-      event.preventDefault(); // 
+      event.preventDefault();
       currPage = i;
       displayTable();
     });
